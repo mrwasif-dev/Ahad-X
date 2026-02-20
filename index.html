@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ahad X • Terminal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahad X | Home</title>
     <style>
         * {
             margin: 0;
@@ -11,225 +11,69 @@
             box-sizing: border-box;
         }
 
-        html, body {
-            width: 100%;
-            min-height: 100vh;
+        body {
             background-color: black;
             color: #00ff00;
             font-family: 'Courier New', monospace;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             text-shadow: 0 0 5px #00ff00;
-            position: relative;
-            overflow-x: hidden;
-            padding: 10px;
         }
 
-        /* Matrix background effect */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(0,255,0,0.02) 0px, rgba(0,0,0,0.8) 1px, transparent 2px);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .main {
+        .container {
             text-align: center;
             border: 2px solid #00ff00;
-            padding: 2rem 2rem;
-            width: 90%;
-            max-width: 900px;
-            margin: 20px auto;
+            padding: 3rem;
             box-shadow: 0 0 20px #00ff00;
             background-color: rgba(0,0,0,0.9);
-            z-index: 1;
-            position: relative;
-            animation: glow 2s infinite alternate;
-            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
         }
 
         h1 {
-            font-size: clamp(1.8rem, 6vw, 4rem);
-            margin-bottom: 3rem;
-            letter-spacing: 2px;
-            word-break: break-word;
-            white-space: normal;
-            padding: 0 10px;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            margin-bottom: 2rem;
             border-bottom: 1px solid #00ff00;
-            padding-bottom: 20px;
+            padding-bottom: 1rem;
         }
 
-        .info-panel {
+        .buttons {
             display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            align-items: center;
+            flex-direction: column;
             gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 0.5rem;
         }
 
-        .info-item {
-            text-align: left;
-            border-left: 3px solid #00ff00;
-            padding-left: 1rem;
-            min-width: 140px;
-            flex: 1 1 auto;
-        }
-
-        .info-item span {
-            display: block;
-            font-size: 0.8rem;
-            color: #008800;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-        }
-
-        .info-item .value {
-            font-size: clamp(1.2rem, 4vw, 2rem);
-            color: #00ff00;
-            text-shadow: 0 0 10px #00ff00;
-            font-weight: bold;
-        }
-
-        @keyframes glow {
-            from { box-shadow: 0 0 20px #00ff00; }
-            to { box-shadow: 0 0 40px #00ff00, 0 0 60px #008800; }
-        }
-
-        /* Network bars styling */
-        .bars {
-            display: flex;
-            align-items: flex-end;
-            gap: 5px;
-            height: 50px;
-        }
-        .bar {
-            width: clamp(8px, 3vw, 15px);
-            background-color: #00ff00;
-            box-shadow: 0 0 8px #00ff00;
-        }
-        .bar1 { height: 20px; }
-        .bar2 { height: 30px; }
-        .bar3 { height: 40px; }
-        .bar4 { height: 50px; }
-
-        .battery {
-            font-size: clamp(1.2rem, 5vw, 2rem);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .battery-level {
+        .btn {
+            background: transparent;
             border: 2px solid #00ff00;
-            padding: 5px 15px;
-            border-radius: 5px;
-            background: #001100;
-            font-size: clamp(1rem, 4vw, 1.8rem);
+            color: #00ff00;
+            padding: 1rem;
+            font-size: 1.5rem;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s;
+            text-shadow: 0 0 5px #00ff00;
         }
 
-        /* موبائل کے لیے */
-        @media screen and (max-width: 600px) {
-            .main {
-                padding: 1.5rem 1rem;
-                width: 95%;
-            }
-            
-            h1 {
-                margin-bottom: 2rem;
-                padding-bottom: 15px;
-            }
-            
-            .info-panel {
-                flex-direction: column;
-                gap: 2rem;
-            }
-            
-            .info-item {
-                width: 100%;
-                text-align: center;
-                border-left: none;
-                border-top: 3px solid #00ff00;
-                padding: 1rem 0 0 0;
-            }
-            
-            .bars {
-                justify-content: center;
-            }
-            
-            .battery {
-                justify-content: center;
-            }
-        }
-
-        /* چھوٹی موبائل سکرینز */
-        @media screen and (max-width: 380px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            .info-item .value {
-                font-size: 1.2rem;
-            }
+        .btn:hover {
+            background: #00ff00;
+            color: black;
+            box-shadow: 0 0 20px #00ff00;
         }
     </style>
 </head>
 <body>
-    <div class="main">
+    <div class="container">
         <h1>>_ WELCOME TO AHAD X</h1>
-        
-        <div class="info-panel">
-            <!-- Signal Strength -->
-            <div class="info-item">
-                <span>NETWORK SIGNAL</span>
-                <div class="bars">
-                    <div class="bar bar1"></div>
-                    <div class="bar bar2"></div>
-                    <div class="bar bar3"></div>
-                    <div class="bar bar4"></div>
-                </div>
-            </div>
-
-            <!-- Battery Percentage -->
-            <div class="info-item">
-                <span>BATTERY</span>
-                <div class="battery">
-                    <span class="battery-level" id="battery">87%</span>
-                    <span>⚡</span>
-                </div>
-            </div>
-
-            <!-- Current Time -->
-            <div class="info-item">
-                <span>SYSTEM TIME</span>
-                <div class="value" id="time">22:47:19</div>
-            </div>
+        <div class="buttons">
+            <a href="login.html" class="btn">LOGIN</a>
+            <a href="comingsoon.html" class="btn">CREATE ACCOUNT</a>
+            <a href="contact.html" class="btn">CONTACT ADMIN</a>
         </div>
     </div>
-
-    <script>
-        // Live Time Update
-        function updateTime() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
-        }
-        setInterval(updateTime, 1000);
-        updateTime();
-
-        // Random Battery Fluctuation
-        function updateBattery() {
-            const batteryEl = document.getElementById('battery');
-            const randomBattery = Math.floor(Math.random() * (100 - 70 + 1)) + 70;
-            batteryEl.textContent = randomBattery + '%';
-        }
-        setInterval(updateBattery, 5000);
-    </script>
 </body>
 </html>
