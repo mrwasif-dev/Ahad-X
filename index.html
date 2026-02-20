@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ahad X</title>
+    <title>Ahad X - Real Device Info</title>
     <style>
         * {
             margin: 0;
@@ -19,24 +19,23 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
         }
 
         .container {
             width: 100%;
             max-width: 600px;
             border: 2px solid #00ff00;
-            padding: 30px;
+            padding: 20px;
+            margin: 20px;
             background-color: black;
         }
 
-        /* Top status bar */
-        .status-bar {
+        .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #00ff00;
+            padding: 10px 0;
+            border-bottom: 2px solid #00ff00;
             margin-bottom: 40px;
             font-size: 16px;
         }
@@ -47,32 +46,46 @@
             gap: 5px;
         }
 
+        .battery-level {
+            font-weight: bold;
+        }
+
         .signal {
             display: flex;
             align-items: center;
-            gap: 3px;
+            gap: 5px;
         }
 
-        .signal span {
-            font-size: 20px;
-            line-height: 1;
+        .signal-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 20px;
         }
+
+        .bar {
+            width: 5px;
+            background-color: #00ff00;
+        }
+
+        .bar1 { height: 6px; }
+        .bar2 { height: 10px; }
+        .bar3 { height: 14px; }
+        .bar4 { height: 18px; }
+        .bar5 { height: 22px; }
 
         .time {
             font-weight: bold;
         }
 
-        /* Main content */
         .welcome {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .welcome h1 {
-            font-size: clamp(28px, 6vw, 48px);
+            font-size: 42px;
             letter-spacing: 2px;
-            border-bottom: 1px solid #00ff00;
-            padding-bottom: 20px;
         }
 
         .buttons {
@@ -92,7 +105,7 @@
             font-size: 20px;
             text-decoration: none;
             text-align: center;
-            transition: 0.3s;
+            cursor: pointer;
         }
 
         .btn:hover {
@@ -100,14 +113,20 @@
             color: black;
         }
 
-        /* Mobile responsive */
+        .note {
+            margin-top: 20px;
+            color: #008800;
+            font-size: 12px;
+            text-align: center;
+        }
+
         @media screen and (max-width: 500px) {
-            .container {
-                padding: 20px;
+            .top-bar {
+                font-size: 14px;
             }
             
-            .status-bar {
-                font-size: 14px;
+            .welcome h1 {
+                font-size: 32px;
             }
             
             .btn {
@@ -119,55 +138,105 @@
 </head>
 <body>
     <div class="container">
-        <!-- Top Status Bar -->
-        <div class="status-bar">
+        <!-- Top Status Bar with Real Device Info -->
+        <div class="top-bar">
             <div class="battery">
-                <span>BATTERY</span>
-                <span id="batteryLevel">87%</span>
+                <span>🔋 BATTERY</span>
+                <span class="battery-level" id="batteryLevel">--%</span>
             </div>
             <div class="signal">
-                <span>SIGNAL</span>
-                <span>▂ ▃ ▄ ▅</span>
+                <span>📶 SIGNAL</span>
+                <div class="signal-bars" id="signalBars">
+                    <div class="bar bar1"></div>
+                    <div class="bar bar2"></div>
+                    <div class="bar bar3"></div>
+                    <div class="bar bar4"></div>
+                    <div class="bar bar5"></div>
+                </div>
             </div>
-            <div class="time">
-                <span id="currentTime">14:25:37</span>
-            </div>
+            <div class="time" id="timeValue">--:--:--</div>
         </div>
 
-        <!-- Welcome Section -->
+        <!-- Welcome Text -->
         <div class="welcome">
             <h1>WELCOME TO AHAD X</h1>
         </div>
 
         <!-- Buttons -->
         <div class="buttons">
-            <a href="login.html" class="btn">LOGIN</a>
-            <a href="comingsoon.html" class="btn">CREATE ACCOUNT</a>
-            <a href="contact.html" class="btn">CONTACT ADMIN</a>
+            <button class="btn" onclick="alert('Login page coming soon')">LOGIN</button>
+            <button class="btn" onclick="alert('Create account coming soon')">CREATE ACCOUNT</button>
+            <button class="btn" onclick="alert('Contact admin coming soon')">CONTACT ADMIN</button>
         </div>
+
+        <div class="note" id="batteryNote"></div>
     </div>
 
     <script>
-        // Real time update
+        // ========== REAL TIME CLOCK ==========
         function updateTime() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('currentTime').textContent = hours + ':' + minutes + ':' + seconds;
+            document.getElementById('timeValue').textContent = hours + ':' + minutes + ':' + seconds;
         }
         
         setInterval(updateTime, 1000);
         updateTime();
 
-        // Battery changes randomly (just for effect)
-        function updateBattery() {
-            const batteryEl = document.getElementById('batteryLevel');
-            const randomBattery = Math.floor(Math.random() * (100 - 70 + 1)) + 70;
-            batteryEl.textContent = randomBattery + '%';
+        // ========== REAL BATTERY LEVEL ==========
+        function updateBattery(battery) {
+            const batteryLevel = Math.floor(battery.level * 100);
+            document.getElementById('batteryLevel').textContent = batteryLevel + '%';
+            
+            // Show charging status
+            if (battery.charging) {
+                document.getElementById('batteryNote').textContent = '⚡ Battery is charging';
+            } else {
+                document.getElementById('batteryNote').textContent = '';
+            }
+        }
+
+        // Check if Battery API is supported
+        if ('getBattery' in navigator) {
+            navigator.getBattery().then(battery => {
+                // Initial update
+                updateBattery(battery);
+                
+                // Listen for changes
+                battery.addEventListener('levelchange', () => updateBattery(battery));
+                battery.addEventListener('chargingchange', () => updateBattery(battery));
+            });
+        } else {
+            // Fallback for browsers that don't support Battery API
+            document.getElementById('batteryLevel').textContent = 'N/A';
+            document.getElementById('batteryNote').textContent = 'Battery API not supported';
+        }
+
+        // ========== SIGNAL STRENGTH ==========
+        // Note: Browsers cannot access real signal strength
+        // We'll show a simulation based on time/random for demo
+        
+        function updateSignal() {
+            const bars = document.querySelectorAll('.bar');
+            const randomStrength = Math.floor(Math.random() * 5) + 1; // 1 to 5 bars
+            
+            // Reset all bars
+            bars.forEach(bar => {
+                bar.style.backgroundColor = '#00ff00';
+                bar.style.opacity = '0.3';
+            });
+            
+            // Light up bars based on strength
+            for(let i = 0; i < randomStrength; i++) {
+                bars[i].style.opacity = '1';
+            }
         }
         
-        setInterval(updateBattery, 5000);
+        // Update signal every 10 seconds
+        updateSignal();
+        setInterval(updateSignal, 10000);
     </script>
 </body>
 </html>
