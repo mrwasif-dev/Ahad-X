@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahad X | Hacker Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: radial-gradient(circle at center, #0a0a0a, #000000);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            overflow: hidden;
+        }
+        .terminal {
+            text-align: center;
+            border: 2px solid #00ff00;
+            padding: 3rem 5rem;
+            border-radius: 12px;
+            box-shadow: 0 0 30px #00ff00, 0 0 60px #008800 inset;
+            background: rgba(0, 0, 0, 0.85);
+            animation: pulse 2s infinite alternate;
+        }
+        h1 {
+            font-size: clamp(2.5rem, 10vw, 6rem);
+            text-shadow: 0 0 15px #00ff00, 0 0 30px #00aa00;
+            margin-bottom: 20px;
+            white-space: nowrap;
+        }
+        .tagline {
+            font-size: clamp(1.2rem, 5vw, 2.2rem);
+            text-shadow: 0 0 8px #00ff00;
+            letter-spacing: 4px;
+            border-right: 3px solid #00ff00;
+            display: inline-block;
+            padding-right: 10px;
+            animation: blinkCursor 1s infinite;
+        }
+        .status {
+            margin-top: 25px;
+            font-size: 1.2rem;
+            color: #33ff33;
+            background: #001100;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #00ff00;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px #00ff00, 0 0 40px #008800 inset; }
+            100% { box-shadow: 0 0 40px #00ff00, 0 0 80px #008800 inset; }
+        }
+        @keyframes blinkCursor {
+            0%, 100% { border-color: #00ff00; }
+            50% { border-color: transparent; }
+        }
+        /* Matrix overlay */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+    <div class="terminal">
+        <h1>>_ WELCOME TO AHAD X</h1>
+        <span class="tagline">SYSTEM READY // ACCESS GRANTED</span>
+        <div class="status">
+            [ Secure Connection ] — Full Screen Mode Engaged
+        </div>
+    </div>
+
+    <script>
+        // Matrix Rain Effect
+        const canvas = document.getElementById('matrixCanvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext('2d');
+
+        const columns = Math.floor(canvas.width / 20);
+        const drops = Array(columns).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0f0';
+            ctx.font = '20px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+                ctx.fillText(text, i * 20, drops[i] * 20);
+
+                if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 50);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
