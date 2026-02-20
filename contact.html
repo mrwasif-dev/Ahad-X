@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahad X | Contact Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-shadow: 0 0 5px #00ff00;
+            padding: 1rem;
+        }
+
+        .container {
+            text-align: center;
+            border: 2px solid #00ff00;
+            padding: 2rem;
+            box-shadow: 0 0 20px #00ff00;
+            background-color: rgba(0,0,0,0.9);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 1rem;
+        }
+
+        .admin-btn {
+            width: 100%;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            background: transparent;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-size: 1.3rem;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .admin-btn:hover {
+            background: #00ff00;
+            color: black;
+            box-shadow: 0 0 20px #00ff00;
+        }
+
+        .sub-option {
+            margin: 0.5rem 0 1.5rem 0;
+            padding: 1rem;
+            border: 1px solid #008800;
+            display: none;
+        }
+
+        .sub-option a {
+            color: #00ff00;
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem;
+            border: 1px dashed #00ff00;
+            margin: 0.5rem 0;
+        }
+
+        .sub-option a:hover {
+            background: #001100;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: #008800;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            color: #00ff00;
+        }
+
+        .coming-soon {
+            color: #ffaa00;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>>_ CONTACT ADMIN</h2>
+        
+        <button class="admin-btn" onclick="toggleSubMenu('wasef')">MR WASEf</button>
+        <div class="sub-option" id="wasef">
+            <a href="https://wa.me/923039107958" target="_blank">
+                📱 WhatsApp: 923039107958
+            </a>
+        </div>
+
+        <button class="admin-btn" onclick="toggleSubMenu('ahad')">AHAD X</button>
+        <div class="sub-option" id="ahad">
+            <div class="coming-soon">🔒 Coming Soon</div>
+        </div>
+
+        <a href="index.html" class="back-btn">< بازگشت به خانه</a>
+    </div>
+
+    <script>
+        function toggleSubMenu(id) {
+            const subMenu = document.getElementById(id);
+            if (subMenu.style.display === 'block') {
+                subMenu.style.display = 'none';
+            } else {
+                // Hide all other submenus first
+                document.getElementById('wasef').style.display = 'none';
+                document.getElementById('ahad').style.display = 'none';
+                // Show the clicked one
+                subMenu.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
