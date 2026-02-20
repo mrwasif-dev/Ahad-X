@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahad X | Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-shadow: 0 0 5px #00ff00;
+            padding: 1rem;
+        }
+
+        .container {
+            text-align: center;
+            border: 2px solid #00ff00;
+            padding: 2rem;
+            box-shadow: 0 0 20px #00ff00;
+            background-color: rgba(0,0,0,0.9);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #008800;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            background: black;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            margin: 1rem 0;
+        }
+
+        .login-btn:hover {
+            background: #00ff00;
+            color: black;
+        }
+
+        .message {
+            margin: 1rem 0;
+            padding: 1rem;
+            border: 1px solid #00ff00;
+            display: none;
+        }
+
+        .create-account-btn {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            text-decoration: none;
+            display: none;
+        }
+
+        .create-account-btn:hover {
+            background: #00ff00;
+            color: black;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: #008800;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            color: #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>>_ LOGIN</h2>
+        
+        <div class="input-group">
+            <label>USERNAME</label>
+            <input type="text" id="username" placeholder="Enter username">
+        </div>
+
+        <div class="input-group">
+            <label>PASSWORD</label>
+            <input type="password" id="password" placeholder="Enter password">
+        </div>
+
+        <button class="login-btn" onclick="checkLogin()">ACCESS</button>
+
+        <div class="message" id="message"></div>
+        <a href="comingsoon.html" class="create-account-btn" id="createBtn">CREATE ACCOUNT</a>
+
+        <a href="index.html" class="back-btn">< بازگشت به خانه</a>
+    </div>
+
+    <script>
+        function checkLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+            const createBtn = document.getElementById('createBtn');
+
+            // Simple check (you can change these credentials)
+            if (username === "ahad" && password === "123") {
+                messageDiv.style.display = 'block';
+                messageDiv.innerHTML = '✓ ACCESS GRANTED. Welcome Ahad!';
+                messageDiv.style.color = '#00ff00';
+                createBtn.style.display = 'none';
+                
+                // Redirect to home after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            } 
+            else if (username === "" || password === "") {
+                messageDiv.style.display = 'block';
+                messageDiv.innerHTML = '! PLEASE ENTER USERNAME AND PASSWORD';
+                messageDiv.style.color = '#ff0000';
+                createBtn.style.display = 'none';
+            }
+            else {
+                messageDiv.style.display = 'block';
+                messageDiv.innerHTML = '✗ YOUR ACCOUNT IS INCORRECT. PLEASE CREATE AN ACCOUNT.';
+                messageDiv.style.color = '#ff0000';
+                createBtn.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
