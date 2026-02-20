@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ahad X • Terminal</title>
     <style>
         * {
@@ -11,21 +11,22 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
+            width: 100%;
+            min-height: 100vh;
             background-color: black;
             color: #00ff00;
             font-family: 'Courier New', monospace;
-            height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             text-shadow: 0 0 5px #00ff00;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
+            padding: 10px;
         }
 
-        /* Matrix background effect (very subtle) */
+        /* Matrix background effect */
         body::before {
             content: "";
             position: absolute;
@@ -38,52 +39,60 @@
         .main {
             text-align: center;
             border: 2px solid #00ff00;
-            padding: 4rem 6rem;
+            padding: 2rem 2rem;
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
             box-shadow: 0 0 20px #00ff00;
             background-color: rgba(0,0,0,0.9);
             z-index: 1;
             position: relative;
             animation: glow 2s infinite alternate;
+            border-radius: 10px;
         }
 
         h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-size: clamp(1.8rem, 6vw, 4rem);
             margin-bottom: 3rem;
-            letter-spacing: 5px;
-            white-space: nowrap;
-            border-right: 3px solid #00ff00;
-            display: inline-block;
-            padding-right: 15px;
-            animation: blinkCursor 1s step-end infinite;
+            letter-spacing: 2px;
+            word-break: break-word;
+            white-space: normal;
+            padding: 0 10px;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 20px;
         }
 
         .info-panel {
             display: flex;
+            flex-direction: row;
             justify-content: space-around;
-            gap: 4rem;
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-top: 2rem;
+            align-items: center;
+            gap: 1rem;
             flex-wrap: wrap;
+            margin-top: 0.5rem;
         }
 
         .info-item {
             text-align: left;
             border-left: 3px solid #00ff00;
             padding-left: 1rem;
+            min-width: 140px;
+            flex: 1 1 auto;
         }
 
         .info-item span {
             display: block;
-            font-size: 1rem;
+            font-size: 0.8rem;
             color: #008800;
             margin-bottom: 5px;
+            letter-spacing: 1px;
         }
 
         .info-item .value {
-            font-size: 2rem;
+            font-size: clamp(1.2rem, 4vw, 2rem);
             color: #00ff00;
             text-shadow: 0 0 10px #00ff00;
+            font-weight: bold;
         }
 
         @keyframes glow {
@@ -91,39 +100,81 @@
             to { box-shadow: 0 0 40px #00ff00, 0 0 60px #008800; }
         }
 
-        @keyframes blinkCursor {
-            from, to { border-color: #00ff00; }
-            50% { border-color: transparent; }
-        }
-
         /* Network bars styling */
         .bars {
             display: flex;
             align-items: flex-end;
-            gap: 4px;
-            height: 40px;
+            gap: 5px;
+            height: 50px;
         }
         .bar {
-            width: 10px;
+            width: clamp(8px, 3vw, 15px);
             background-color: #00ff00;
             box-shadow: 0 0 8px #00ff00;
         }
-        .bar1 { height: 15px; }
-        .bar2 { height: 25px; }
-        .bar3 { height: 35px; }
-        .bar4 { height: 45px; }
+        .bar1 { height: 20px; }
+        .bar2 { height: 30px; }
+        .bar3 { height: 40px; }
+        .bar4 { height: 50px; }
 
         .battery {
-            font-size: 2rem;
+            font-size: clamp(1.2rem, 5vw, 2rem);
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
         .battery-level {
             border: 2px solid #00ff00;
             padding: 5px 15px;
             border-radius: 5px;
             background: #001100;
+            font-size: clamp(1rem, 4vw, 1.8rem);
+        }
+
+        /* موبائل کے لیے */
+        @media screen and (max-width: 600px) {
+            .main {
+                padding: 1.5rem 1rem;
+                width: 95%;
+            }
+            
+            h1 {
+                margin-bottom: 2rem;
+                padding-bottom: 15px;
+            }
+            
+            .info-panel {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .info-item {
+                width: 100%;
+                text-align: center;
+                border-left: none;
+                border-top: 3px solid #00ff00;
+                padding: 1rem 0 0 0;
+            }
+            
+            .bars {
+                justify-content: center;
+            }
+            
+            .battery {
+                justify-content: center;
+            }
+        }
+
+        /* چھوٹی موبائل سکرینز */
+        @media screen and (max-width: 380px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .info-item .value {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -170,15 +221,15 @@
             document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
         }
         setInterval(updateTime, 1000);
-        updateTime(); // initial call
+        updateTime();
 
-        // Random Battery Fluctuation (just for hacker feel)
+        // Random Battery Fluctuation
         function updateBattery() {
             const batteryEl = document.getElementById('battery');
-            const randomBattery = Math.floor(Math.random() * (100 - 70 + 1)) + 70; // between 70-100%
+            const randomBattery = Math.floor(Math.random() * (100 - 70 + 1)) + 70;
             batteryEl.textContent = randomBattery + '%';
         }
-        setInterval(updateBattery, 5000); // change every 5 seconds
+        setInterval(updateBattery, 5000);
     </script>
 </body>
 </html>
