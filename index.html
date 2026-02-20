@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ahad X</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahad X | Terminal</title>
     <style>
         * {
             margin: 0;
@@ -12,12 +12,30 @@
         }
 
         body {
-            background: radial-gradient(circle at 50% 50%, #1a1a1a, #000000);
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Courier New', 'Fira Code', monospace;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
+        }
+
+        /* Matrix-like background effect */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, 
+                rgba(0, 20, 0, 0.1) 0px, 
+                rgba(0, 40, 0, 0.1) 2px, 
+                transparent 2px, 
+                transparent 4px);
+            pointer-events: none;
+            z-index: 0;
         }
 
         /* Status Bar */
@@ -25,105 +43,87 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 24px;
-            background-color: rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 500;
-            width: 100%;
-            border-bottom: 3px solid #00ff00;
-            box-shadow: 0 2px 10px rgba(0, 255, 0, 0.2);
+            padding: 12px 20px;
+            background-color: #0a0a0a;
+            border-bottom: 2px solid #2a2a2a;
+            color: #cccccc;
+            font-size: 14px;
+            font-weight: 400;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Left side - Signal bars only */
         .status-left {
             display: flex;
             align-items: center;
+            gap: 12px;
         }
 
         .signal-bars {
             display: flex;
             align-items: flex-end;
-            gap: 3px;
-            height: 16px;
+            gap: 2px;
+            height: 14px;
         }
 
         .signal-bar {
-            width: 5px;
-            background-color: #00ff00;
-            border-radius: 2px;
-            box-shadow: 0 0 5px #00ff00;
+            width: 3px;
+            background-color: #cccccc;
+            border-radius: 1px;
         }
 
-        .bar1 { height: 8px; }
-        .bar2 { height: 10px; }
-        .bar3 { height: 12px; }
-        .bar4 { height: 14px; }
-        .bar5 { height: 16px; }
+        .bar1 { height: 6px; }
+        .bar2 { height: 8px; }
+        .bar3 { height: 10px; }
+        .bar4 { height: 12px; }
+        .bar5 { height: 14px; }
 
-        /* Center - Time */
         .status-center {
-            font-weight: 600;
-            font-size: 18px;
+            font-size: 15px;
             letter-spacing: 1px;
-            color: #00ff00;
-            text-shadow: 0 0 8px #00ff00;
+            color: #cccccc;
         }
 
-        /* Right side - Only Battery */
         .status-right {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .battery-container {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
         .battery-icon {
-            width: 28px;
-            height: 14px;
-            border: 2px solid #00ff00;
-            border-radius: 4px;
+            width: 24px;
+            height: 12px;
+            border: 1px solid #cccccc;
+            border-radius: 2px;
             position: relative;
-            box-shadow: 0 0 5px #00ff00;
         }
 
         .battery-icon::after {
             content: '';
             position: absolute;
-            right: -5px;
-            top: 3px;
-            width: 4px;
-            height: 6px;
-            background-color: #00ff00;
+            right: -3px;
+            top: 2px;
+            width: 2px;
+            height: 4px;
+            background-color: #cccccc;
             border-radius: 1px;
-            box-shadow: 0 0 5px #00ff00;
         }
 
         .battery-fill {
-            height: 10px;
-            background-color: #00ff00;
+            height: 8px;
+            background-color: #cccccc;
             margin: 1px;
             width: 0%;
-            box-shadow: 0 0 8px #00ff00;
         }
 
         .battery-percent {
-            font-size: 14px;
-            font-weight: 600;
-            color: #00ff00;
-            text-shadow: 0 0 5px #00ff00;
+            font-size: 13px;
+            color: #cccccc;
         }
 
         .charging-icon {
-            color: #00ff00;
-            font-size: 16px;
-            text-shadow: 0 0 8px #00ff00;
+            color: #cccccc;
+            font-size: 14px;
         }
 
         /* Main Content */
@@ -133,182 +133,156 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            padding: 30px 20px;
             position: relative;
+            z-index: 5;
         }
 
-        /* Welcome Section */
-        .welcome-section {
-            text-align: center;
-            margin-bottom: 70px;
-            position: relative;
-        }
-
-        .welcome-text {
-            color: #00ff00;
-            font-size: clamp(40px, 12vw, 80px);
-            font-weight: 900;
-            font-family: 'Courier New', monospace;
-            text-transform: uppercase;
-            letter-spacing: 8px;
-            line-height: 1.2;
-            margin-bottom: 15px;
-            animation: glowPulse 2s ease-in-out infinite;
-            position: relative;
-            display: inline-block;
-        }
-
-        .welcome-text::before {
-            content: 'WELCOME TO AHAD X';
-            position: absolute;
-            left: 2px;
-            top: 2px;
-            color: rgba(255,255,255,0.1);
-            z-index: -1;
-        }
-
-        .welcome-sub {
-            color: rgba(0, 255, 0, 0.7);
-            font-size: 16px;
-            letter-spacing: 10px;
-            text-transform: uppercase;
-            font-family: 'Courier New', monospace;
-            border-top: 2px solid rgba(0, 255, 0, 0.3);
-            padding-top: 15px;
-            display: inline-block;
-        }
-
-        /* Buttons Container */
-        .buttons-container {
+        .terminal-window {
             width: 100%;
-            max-width: 400px;
+            max-width: 700px;
+            background-color: #0f0f0f;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 40px;
+        }
+
+        .terminal-header {
+            background-color: #1a1a1a;
+            padding: 12px 16px;
+            border-bottom: 1px solid #2a2a2a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #3a3a3a;
+        }
+
+        .terminal-dot.red { background-color: #ff5f56; }
+        .terminal-dot.yellow { background-color: #ffbd2e; }
+        .terminal-dot.green { background-color: #27c93f; }
+
+        .terminal-title {
+            color: #888;
+            font-size: 13px;
+            margin-left: 8px;
+        }
+
+        .terminal-body {
+            padding: 40px 30px;
+        }
+
+        .welcome-line {
+            color: #e0e0e0;
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 600;
+            margin-bottom: 16px;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .path-line {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .path-line span {
+            color: #e0e0e0;
+        }
+
+        .buttons-grid {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            padding: 0 20px;
+            gap: 12px;
+            margin-top: 30px;
         }
 
-        .btn {
-            background: transparent;
-            border: none;
-            color: #00ff00;
-            padding: 18px 30px;
-            font-size: 20px;
+        .terminal-btn {
+            background-color: transparent;
+            border: 1px solid #2a2a2a;
+            color: #e0e0e0;
+            padding: 14px 20px;
             font-family: 'Courier New', monospace;
-            font-weight: 600;
-            cursor: pointer;
-            text-align: center;
+            font-size: 16px;
+            text-align: left;
             text-decoration: none;
             display: block;
+            cursor: pointer;
+            transition: all 0.2s ease;
             position: relative;
-            transition: all 0.4s ease;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            border: 2px solid #00ff00;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
-            overflow: hidden;
-            z-index: 1;
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
-            transition: left 0.5s ease;
-            z-index: -1;
+        .terminal-btn:hover {
+            border-color: #666;
+            background-color: #1a1a1a;
         }
 
-        .btn:hover {
-            background: #00ff00;
-            color: black;
-            box-shadow: 0 0 30px #00ff00;
-            transform: translateY(-3px);
+        .terminal-btn::before {
+            content: '$>';
+            color: #666;
+            margin-right: 12px;
+            font-size: 14px;
         }
 
-        .btn:hover::before {
-            left: 100%;
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: #e0e0e0;
+            animation: blink 1s infinite;
+            margin-left: 5px;
         }
 
-        .btn:active {
-            transform: translateY(0);
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
-        /* Glow Animation */
-        @keyframes glowPulse {
-            0% { text-shadow: 0 0 10px #00ff00; }
-            50% { text-shadow: 0 0 30px #00ff00, 0 0 50px #00ff00; }
-            100% { text-shadow: 0 0 10px #00ff00; }
+        .status-line {
+            color: #666;
+            font-size: 12px;
+            margin-top: 30px;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         /* Responsive */
-        @media screen and (max-width: 480px) {
-            .status-bar {
+        @media screen and (max-width: 600px) {
+            .terminal-body {
+                padding: 30px 20px;
+            }
+            
+            .welcome-line {
+                font-size: 24px;
+            }
+            
+            .terminal-btn {
                 padding: 12px 16px;
+                font-size: 14px;
             }
             
-            .status-center {
-                font-size: 16px;
+            .status-bar {
+                padding: 10px 16px;
+                font-size: 13px;
             }
-            
-            .signal-bars {
-                gap: 2px;
-            }
-            
-            .signal-bar {
-                width: 4px;
-            }
-            
-            .bar1 { height: 6px; }
-            .bar2 { height: 8px; }
-            .bar3 { height: 10px; }
-            .bar4 { height: 12px; }
-            .bar5 { height: 14px; }
-            
-            .battery-icon {
-                width: 24px;
-                height: 12px;
-            }
-            
-            .battery-percent {
-                font-size: 12px;
-            }
-            
-            .welcome-text {
-                letter-spacing: 4px;
-            }
-            
-            .welcome-sub {
-                letter-spacing: 5px;
-                font-size: 12px;
-            }
-            
-            .btn {
-                padding: 16px 20px;
-                font-size: 18px;
-                letter-spacing: 2px;
-            }
-        }
-
-        /* Desktop Enhancements */
-        @media screen and (min-width: 768px) {
-            .buttons-container {
-                max-width: 450px;
-            }
-            
-            .btn {
-                padding: 20px 35px;
-                font-size: 22px;
-            }
-        }
-
-        /* Extra glow for battery and signal */
-        .signal-bar, .battery-fill {
-            transition: all 0.3s ease;
         }
     </style>
 </head>
@@ -325,35 +299,51 @@
             </div>
         </div>
 
-        <div class="status-center" id="timeDisplay">14:30:45</div>
+        <div class="status-center" id="timeDisplay">22:47:19</div>
 
         <div class="status-right">
-            <div class="battery-container">
-                <div class="battery-icon">
-                    <div class="battery-fill" id="batteryFill"></div>
-                </div>
-                <span class="battery-percent" id="batteryPercent">--%</span>
+            <div class="battery-icon">
+                <div class="battery-fill" id="batteryFill" style="width: 85%"></div>
             </div>
+            <span class="battery-percent" id="batteryPercent">85%</span>
             <span class="charging-icon" id="chargingIcon"></span>
         </div>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-        <div class="welcome-section">
-            <div class="welcome-text">WELCOME TO AHAD X</div>
-            <div class="welcome-sub">TERMINAL ACCESS</div>
-        </div>
-        
-        <div class="buttons-container">
-            <a href="#" class="btn" onclick="alert('Login page coming soon'); return false;">LOGIN</a>
-            <a href="#" class="btn" onclick="alert('Create account coming soon'); return false;">CREATE ACCOUNT</a>
-            <a href="#" class="btn" onclick="alert('Contact admin coming soon'); return false;">CONTACT ADMIN</a>
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <div class="terminal-title">ahad@x:~</div>
+            </div>
+            <div class="terminal-body">
+                <div class="welcome-line">WELCOME TO AHAD X</div>
+                
+                <div class="path-line">
+                    <span>➜</span> /home/ahad/terminal
+                    <span class="cursor"></span>
+                </div>
+
+                <div class="buttons-grid">
+                    <a href="#" class="terminal-btn" onclick="alert('Login module loading...'); return false;">LOGIN</a>
+                    <a href="#" class="terminal-btn" onclick="alert('Account creation coming soon'); return false;">CREATE ACCOUNT</a>
+                    <a href="#" class="terminal-btn" onclick="alert('Contact admin interface'); return false;">CONTACT ADMIN</a>
+                </div>
+
+                <div class="status-line">
+                    <div class="status-item">🔒 SECURE CONNECTION</div>
+                    <div class="status-item">📡 ENCRYPTED</div>
+                    <div class="status-item">⚡ SYSTEM READY</div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Real time clock with seconds
+        // Real time clock
         function updateTime() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -365,14 +355,12 @@
         setInterval(updateTime, 1000);
         updateTime();
 
-        // Real battery
+        // Battery
         function updateBattery(battery) {
             const level = Math.floor(battery.level * 100);
             document.getElementById('batteryPercent').textContent = level + '%';
             document.getElementById('batteryFill').style.width = level + '%';
-            
-            const chargingIcon = document.getElementById('chargingIcon');
-            chargingIcon.textContent = battery.charging ? '⚡' : '';
+            document.getElementById('chargingIcon').textContent = battery.charging ? '⚡' : '';
         }
 
         if ('getBattery' in navigator) {
@@ -381,9 +369,6 @@
                 battery.addEventListener('levelchange', () => updateBattery(battery));
                 battery.addEventListener('chargingchange', () => updateBattery(battery));
             });
-        } else {
-            document.getElementById('batteryPercent').textContent = '92%';
-            document.getElementById('batteryFill').style.width = '92%';
         }
     </script>
 </body>
