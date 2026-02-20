@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ahad X - Real Device Info</title>
+    <title>Ahad X</title>
     <style>
         * {
             margin: 0;
@@ -13,99 +13,155 @@
 
         body {
             background-color: black;
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
         }
 
-        .container {
-            width: 100%;
-            max-width: 600px;
-            border: 2px solid #00ff00;
-            padding: 20px;
-            margin: 20px;
-            background-color: black;
-        }
-
-        .top-bar {
+        /* Notification Bar - Exactly like mobile */
+        .notification-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 2px solid #00ff00;
-            margin-bottom: 40px;
-            font-size: 16px;
+            padding: 12px 20px;
+            background-color: black;
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            width: 100%;
+            border-bottom: 1px solid #222;
         }
 
-        .battery {
+        /* Left side - Signal, WiFi, Bluetooth */
+        .left-icons {
             display: flex;
             align-items: center;
-            gap: 5px;
-        }
-
-        .battery-level {
-            font-weight: bold;
-        }
-
-        .signal {
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            gap: 12px;
         }
 
         .signal-bars {
             display: flex;
             align-items: flex-end;
-            gap: 3px;
-            height: 20px;
+            gap: 2px;
+            height: 14px;
         }
 
-        .bar {
-            width: 5px;
-            background-color: #00ff00;
+        .signal-bar {
+            width: 4px;
+            background-color: white;
+            border-radius: 1px;
         }
 
         .bar1 { height: 6px; }
-        .bar2 { height: 10px; }
-        .bar3 { height: 14px; }
-        .bar4 { height: 18px; }
-        .bar5 { height: 22px; }
+        .bar2 { height: 8px; }
+        .bar3 { height: 10px; }
+        .bar4 { height: 12px; }
+        .bar5 { height: 14px; }
 
+        .wifi-icon {
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .bluetooth-icon {
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        /* Center - Time */
         .time {
-            font-weight: bold;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
-        .welcome {
-            text-align: center;
-            margin-bottom: 40px;
+        /* Right side - Battery */
+        .right-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .welcome h1 {
+        .battery-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .battery-icon {
+            width: 24px;
+            height: 12px;
+            border: 2px solid white;
+            border-radius: 3px;
+            position: relative;
+            background-color: transparent;
+        }
+
+        .battery-icon::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: 2px;
+            width: 3px;
+            height: 4px;
+            background-color: white;
+            border-radius: 1px;
+        }
+
+        .battery-fill {
+            height: 8px;
+            background-color: white;
+            margin: 1px;
+            width: 0%;
+        }
+
+        .battery-percent {
+            font-size: 14px;
+        }
+
+        .charging-icon {
+            color: #00ff00;
+            font-size: 16px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .welcome-text {
+            color: #00ff00;
             font-size: 42px;
-            letter-spacing: 2px;
+            font-weight: bold;
+            margin-bottom: 50px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
         }
 
         .buttons {
             display: flex;
             flex-direction: column;
             gap: 15px;
+            width: 100%;
+            max-width: 300px;
         }
 
         .btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
             background-color: transparent;
             border: 2px solid #00ff00;
             color: #00ff00;
+            padding: 15px;
+            font-size: 18px;
             font-family: 'Courier New', monospace;
-            font-size: 20px;
-            text-decoration: none;
-            text-align: center;
             cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
         }
 
         .btn:hover {
@@ -113,130 +169,109 @@
             color: black;
         }
 
-        .note {
-            margin-top: 20px;
-            color: #008800;
-            font-size: 12px;
-            text-align: center;
-        }
-
-        @media screen and (max-width: 500px) {
-            .top-bar {
-                font-size: 14px;
+        @media screen and (max-width: 400px) {
+            .notification-bar {
+                padding: 10px 15px;
+                font-size: 13px;
             }
             
-            .welcome h1 {
+            .welcome-text {
                 font-size: 32px;
             }
             
             .btn {
-                font-size: 18px;
                 padding: 12px;
+                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Top Status Bar with Real Device Info -->
-        <div class="top-bar">
-            <div class="battery">
-                <span>🔋 BATTERY</span>
-                <span class="battery-level" id="batteryLevel">--%</span>
+    <!-- Notification Bar - Exactly like mobile -->
+    <div class="notification-bar">
+        <!-- Left side -->
+        <div class="left-icons">
+            <div class="signal-bars">
+                <div class="signal-bar bar1"></div>
+                <div class="signal-bar bar2"></div>
+                <div class="signal-bar bar3"></div>
+                <div class="signal-bar bar4"></div>
+                <div class="signal-bar bar5"></div>
             </div>
-            <div class="signal">
-                <span>📶 SIGNAL</span>
-                <div class="signal-bars" id="signalBars">
-                    <div class="bar bar1"></div>
-                    <div class="bar bar2"></div>
-                    <div class="bar bar3"></div>
-                    <div class="bar bar4"></div>
-                    <div class="bar bar5"></div>
+            <div class="wifi-icon">📶</div>
+            <div class="bluetooth-icon">🅱️</div>
+        </div>
+
+        <!-- Center - Time -->
+        <div class="time" id="timeDisplay">14:30</div>
+
+        <!-- Right side - Battery -->
+        <div class="right-icons">
+            <div class="battery-container">
+                <div class="battery-icon">
+                    <div class="battery-fill" id="batteryFill" style="width: 92%"></div>
                 </div>
+                <span class="battery-percent" id="batteryPercent">92%</span>
             </div>
-            <div class="time" id="timeValue">--:--:--</div>
+            <span class="charging-icon" id="chargingIcon"></span>
         </div>
+    </div>
 
-        <!-- Welcome Text -->
-        <div class="welcome">
-            <h1>WELCOME TO AHAD X</h1>
-        </div>
-
-        <!-- Buttons -->
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="welcome-text">WELCOME TO AHAD X</div>
+        
         <div class="buttons">
             <button class="btn" onclick="alert('Login page coming soon')">LOGIN</button>
             <button class="btn" onclick="alert('Create account coming soon')">CREATE ACCOUNT</button>
             <button class="btn" onclick="alert('Contact admin coming soon')">CONTACT ADMIN</button>
         </div>
-
-        <div class="note" id="batteryNote"></div>
     </div>
 
     <script>
-        // ========== REAL TIME CLOCK ==========
+        // ========== REAL TIME CLOCK (Hours:Minutes) ==========
         function updateTime() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('timeValue').textContent = hours + ':' + minutes + ':' + seconds;
+            document.getElementById('timeDisplay').textContent = hours + ':' + minutes;
         }
         
         setInterval(updateTime, 1000);
         updateTime();
 
-        // ========== REAL BATTERY LEVEL ==========
+        // ========== REAL BATTERY ==========
         function updateBattery(battery) {
-            const batteryLevel = Math.floor(battery.level * 100);
-            document.getElementById('batteryLevel').textContent = batteryLevel + '%';
+            const level = Math.floor(battery.level * 100);
+            document.getElementById('batteryPercent').textContent = level + '%';
+            document.getElementById('batteryFill').style.width = level + '%';
             
-            // Show charging status
+            // Show charging icon if charging
+            const chargingIcon = document.getElementById('chargingIcon');
             if (battery.charging) {
-                document.getElementById('batteryNote').textContent = '⚡ Battery is charging';
+                chargingIcon.textContent = '⚡';
             } else {
-                document.getElementById('batteryNote').textContent = '';
+                chargingIcon.textContent = '';
             }
         }
 
-        // Check if Battery API is supported
+        // Check Battery API
         if ('getBattery' in navigator) {
             navigator.getBattery().then(battery => {
-                // Initial update
                 updateBattery(battery);
                 
-                // Listen for changes
                 battery.addEventListener('levelchange', () => updateBattery(battery));
                 battery.addEventListener('chargingchange', () => updateBattery(battery));
             });
         } else {
-            // Fallback for browsers that don't support Battery API
-            document.getElementById('batteryLevel').textContent = 'N/A';
-            document.getElementById('batteryNote').textContent = 'Battery API not supported';
+            // Fallback
+            document.getElementById('batteryPercent').textContent = '92%';
+            document.getElementById('batteryFill').style.width = '92%';
         }
 
-        // ========== SIGNAL STRENGTH ==========
-        // Note: Browsers cannot access real signal strength
-        // We'll show a simulation based on time/random for demo
-        
-        function updateSignal() {
-            const bars = document.querySelectorAll('.bar');
-            const randomStrength = Math.floor(Math.random() * 5) + 1; // 1 to 5 bars
-            
-            // Reset all bars
-            bars.forEach(bar => {
-                bar.style.backgroundColor = '#00ff00';
-                bar.style.opacity = '0.3';
-            });
-            
-            // Light up bars based on strength
-            for(let i = 0; i < randomStrength; i++) {
-                bars[i].style.opacity = '1';
-            }
-        }
-        
-        // Update signal every 10 seconds
-        updateSignal();
-        setInterval(updateSignal, 10000);
+        // ========== SIGNAL BARS (just for show) ==========
+        // Note: Real signal not possible in browser
+        // All bars are visible as in mobile
     </script>
 </body>
 </html>
