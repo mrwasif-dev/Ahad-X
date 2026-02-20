@@ -3,120 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ahad X | Hacker Portal</title>
+    <title>Ahad X • Terminal</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            background: radial-gradient(circle at center, #0a0a0a, #000000);
+            background-color: black;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: 'Courier New', monospace;
-            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+            position: relative;
             overflow: hidden;
         }
-        .terminal {
+
+        /* Matrix background effect (very subtle) */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,255,0,0.02) 0px, rgba(0,0,0,0.8) 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .main {
             text-align: center;
             border: 2px solid #00ff00;
-            padding: 3rem 5rem;
-            border-radius: 12px;
-            box-shadow: 0 0 30px #00ff00, 0 0 60px #008800 inset;
-            background: rgba(0, 0, 0, 0.85);
-            animation: pulse 2s infinite alternate;
+            padding: 4rem 6rem;
+            box-shadow: 0 0 20px #00ff00;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 1;
+            position: relative;
+            animation: glow 2s infinite alternate;
         }
+
         h1 {
-            font-size: clamp(2.5rem, 10vw, 6rem);
-            text-shadow: 0 0 15px #00ff00, 0 0 30px #00aa00;
-            margin-bottom: 20px;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            margin-bottom: 3rem;
+            letter-spacing: 5px;
             white-space: nowrap;
-        }
-        .tagline {
-            font-size: clamp(1.2rem, 5vw, 2.2rem);
-            text-shadow: 0 0 8px #00ff00;
-            letter-spacing: 4px;
             border-right: 3px solid #00ff00;
             display: inline-block;
-            padding-right: 10px;
-            animation: blinkCursor 1s infinite;
+            padding-right: 15px;
+            animation: blinkCursor 1s step-end infinite;
         }
-        .status {
-            margin-top: 25px;
-            font-size: 1.2rem;
-            color: #33ff33;
-            background: #001100;
-            padding: 10px;
-            border-radius: 5px;
-            border-left: 5px solid #00ff00;
+
+        .info-panel {
+            display: flex;
+            justify-content: space-around;
+            gap: 4rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 2rem;
+            flex-wrap: wrap;
         }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 20px #00ff00, 0 0 40px #008800 inset; }
-            100% { box-shadow: 0 0 40px #00ff00, 0 0 80px #008800 inset; }
+
+        .info-item {
+            text-align: left;
+            border-left: 3px solid #00ff00;
+            padding-left: 1rem;
         }
+
+        .info-item span {
+            display: block;
+            font-size: 1rem;
+            color: #008800;
+            margin-bottom: 5px;
+        }
+
+        .info-item .value {
+            font-size: 2rem;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px #00ff00; }
+            to { box-shadow: 0 0 40px #00ff00, 0 0 60px #008800; }
+        }
+
         @keyframes blinkCursor {
-            0%, 100% { border-color: #00ff00; }
+            from, to { border-color: #00ff00; }
             50% { border-color: transparent; }
         }
-        /* Matrix overlay */
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.2;
-            pointer-events: none;
+
+        /* Network bars styling */
+        .bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 40px;
+        }
+        .bar {
+            width: 10px;
+            background-color: #00ff00;
+            box-shadow: 0 0 8px #00ff00;
+        }
+        .bar1 { height: 15px; }
+        .bar2 { height: 25px; }
+        .bar3 { height: 35px; }
+        .bar4 { height: 45px; }
+
+        .battery {
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .battery-level {
+            border: 2px solid #00ff00;
+            padding: 5px 15px;
+            border-radius: 5px;
+            background: #001100;
         }
     </style>
 </head>
 <body>
-    <canvas id="matrixCanvas"></canvas>
-    <div class="terminal">
+    <div class="main">
         <h1>>_ WELCOME TO AHAD X</h1>
-        <span class="tagline">SYSTEM READY // ACCESS GRANTED</span>
-        <div class="status">
-            [ Secure Connection ] — Full Screen Mode Engaged
+        
+        <div class="info-panel">
+            <!-- Signal Strength -->
+            <div class="info-item">
+                <span>NETWORK SIGNAL</span>
+                <div class="bars">
+                    <div class="bar bar1"></div>
+                    <div class="bar bar2"></div>
+                    <div class="bar bar3"></div>
+                    <div class="bar bar4"></div>
+                </div>
+            </div>
+
+            <!-- Battery Percentage -->
+            <div class="info-item">
+                <span>BATTERY</span>
+                <div class="battery">
+                    <span class="battery-level" id="battery">87%</span>
+                    <span>⚡</span>
+                </div>
+            </div>
+
+            <!-- Current Time -->
+            <div class="info-item">
+                <span>SYSTEM TIME</span>
+                <div class="value" id="time">22:47:19</div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Matrix Rain Effect
-        const canvas = document.getElementById('matrixCanvas');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const ctx = canvas.getContext('2d');
-
-        const columns = Math.floor(canvas.width / 20);
-        const drops = Array(columns).fill(1);
-
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#0f0';
-            ctx.font = '20px monospace';
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = String.fromCharCode(0x30A0 + Math.random() * 96);
-                ctx.fillText(text, i * 20, drops[i] * 20);
-
-                if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
+        // Live Time Update
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
         }
+        setInterval(updateTime, 1000);
+        updateTime(); // initial call
 
-        setInterval(drawMatrix, 50);
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        // Random Battery Fluctuation (just for hacker feel)
+        function updateBattery() {
+            const batteryEl = document.getElementById('battery');
+            const randomBattery = Math.floor(Math.random() * (100 - 70 + 1)) + 70; // between 70-100%
+            batteryEl.textContent = randomBattery + '%';
+        }
+        setInterval(updateBattery, 5000); // change every 5 seconds
     </script>
 </body>
 </html>
