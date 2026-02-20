@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahad X | Coming Soon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .container {
+            text-align: center;
+            border: 2px solid #00ff00;
+            padding: 3rem;
+            box-shadow: 0 0 20px #00ff00;
+            background-color: rgba(0,0,0,0.9);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .dots {
+            font-size: 2rem;
+            margin: 2rem 0;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            color: #008800;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .back-btn:hover {
+            color: #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>>_ COMING SOON</h1>
+        <div class="dots">. . .</div>
+        <p>This feature is under construction</p>
+        <a href="index.html" class="back-btn">< بازگشت به خانه</a>
+    </div>
+</body>
+</html>
