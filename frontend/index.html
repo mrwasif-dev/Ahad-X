@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahad X Toolkit - Professional E-Commerce</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b1120;
+            color: #fff;
+        }
+
+        /* ========== AUTH PAGES ========== */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .auth-brand {
+            background: linear-gradient(135deg, #1a2639 0%, #0f172a 100%);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-brand::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="2"/></svg>') repeat;
+        }
+
+        .auth-brand-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+
+        .auth-brand-content h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-brand-content h2 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #94a3b8;
+        }
+
+        .auth-brand-content p {
+            color: #cbd5e1;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .auth-form-section {
+            padding: 60px 50px;
+            background: white;
+        }
+
+        .auth-form {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-header h3 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #3b82f6;
+            margin-bottom: 12px;
+        }
+
+        .auth-header h4 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 15px 16px 15px 48px;
+            font-size: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            transition: all 0.3s;
+            outline: none;
+            background: #f8fafc;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px #3b82f6;
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+        }
+
+        .auth-link a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ========== MAIN APP ========== */
+        .app-container {
+            min-height: 100vh;
+            background: #0b1120;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-brand h2 {
+            font-size: 24px;
+            background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hamburger-menu {
+            position: relative;
+        }
+
+        .hamburger-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .hamburger-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .hamburger-btn span {
+            width: 24px;
+            height: 2px;
+            background: white;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background: #1e293b;
+            border-radius: 16px;
+            overflow: hidden;
+            min-width: 220px;
+            box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.3s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: #2d3a4f;
+            padding-left: 32px;
+            color: white;
+        }
+
+        .dropdown-menu a i {
+            width: 20px;
+            color: #60a5fa;
+        }
+
+        /* User Info */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .wallet-card {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.3);
+        }
+
+        .wallet-card i {
+            font-size: 20px;
+            color: white;
+        }
+
+        .wallet-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wallet-label {
+            font-size: 10px;
+            opacity: 0.8;
+            letter-spacing: 0.5px;
+        }
+
+        .wallet-amount {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: white;
+        }
+
+        .admin-badge {
+            background: #8b5cf6;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Balance Alert */
+        .balance-alert {
+            background: #1e293b;
+            border-left: 4px solid #3b82f6;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .balance-alert p {
+            font-size: 18px;
+            color: #e2e8f0;
+        }
+
+        .balance-alert strong {
+            color: #60a5fa;
+            font-size: 24px;
+        }
+
+        /* Wallet Actions */
+        .wallet-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .wallet-action-btn {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .wallet-action-btn:hover {
+            transform: translateY(-5px);
+            border-color: #3b82f6;
+            box-shadow: 0 20px 30px -10px rgba(59, 130, 246, 0.3);
+        }
+
+        .wallet-action-btn i {
+            font-size: 32px;
+            color: #60a5fa;
+        }
+
+        .wallet-action-btn span {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .wallet-action-btn small {
+            color: #94a3b8;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: #1e293b;
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-panel h2 {
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .admin-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .admin-form input, .admin-form textarea {
+            padding: 15px;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+        }
+
+        .admin-form input:focus, .admin-form textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .admin-form textarea {
+            grid-column: span 2;
+            resize: vertical;
+        }
+
+        .admin-form button {
+            padding: 15px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Items Grid */
+        .items-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .item-card {
+            background: #1e293b;
+            border-radius: 24px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            border-color: #3b82f6;
+            box-shadow: 0 20px 30px -10px rgba(59, 130, 246, 0.2);
+        }
+
+        .item-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .item-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .item-description {
+            color: #94a3b8;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .item-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 20px;
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .buy-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px -5px #3b82f6;
+        }
+
+        .buy-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .admin-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .admin-actions button {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-btn {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border-radius: 24px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal-content h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .confirm-btn {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #475569;
+            color: white;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .auth-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .auth-brand {
+                display: none;
+            }
+
+            .wallet-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .nav-brand {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .user-info {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .wallet-card {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-brand">
+                <div class="auth-brand-content">
+                    <h1>Ahad X</h1>
+                    <h2>Toolkit</h2>
+                    <p>Professional E-Commerce Platform with Digital Wallet. Buy and sell items securely.</p>
+                </div>
+            </div>
+            <div class="auth-form-section">
+                <div class="auth-form">
+                    <div class="auth-header">
+                        <h3>WELCOME BACK</h3>
+                        <h4>Sign in to your account</h4>
+                    </div>
+                    
+                    <div id="loginError" style="color: #ef4444; margin-bottom: 15px; display: none;"></div>
+                    
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="far fa-user"></i>
+                            <input type="text" id="loginUsername" placeholder="Username">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="Password">
+                        </div>
+                    </div>
+                    
+                    <button class="auth-btn" onclick="handleLogin()">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                    
+                    <div class="auth-link">
+                        Don't have an account? <a href="#" onclick="showSignup()">Create account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signupPage" class="auth-container hidden">
+        <div class="auth-card">
+            <div class="auth-brand">
+                <div class="auth-brand-content">
+                    <h1>Ahad X</h1>
+                    <h2>Toolkit</h2>
+                    <p>Join thousands of users. Get $1000 bonus on signup!</p>
+                </div>
+            </div>
+            <div class="auth-form-section">
+                <div class="auth-form">
+                    <div class="auth-header">
+                        <h3>CREATE ACCOUNT</h3>
+                        <h4>Get started for free</h4>
+                    </div>
+                    
+                    <div id="signupError" style="color: #ef4444; margin-bottom: 15px; display: none;"></div>
+                    
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="far fa-user"></i>
+                            <input type="text" id="signupName" placeholder="Full Name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="far fa-id-card"></i>
+                            <input type="text" id="signupUsername" placeholder="Username">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="far fa-envelope"></i>
+                            <input type="email" id="signupEmail" placeholder="Email">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="signupPassword" placeholder="Password">
+                        </div>
+                    </div>
+                    
+                    <button class="auth-btn" onclick="handleSignup()">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </button>
+                    
+                    <div class="auth-link">
+                        Already have an account? <a href="#" onclick="showLogin()">Sign in</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="app-container hidden">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h2>Ahad X Toolkit</h2>
+                
+                <!-- Hamburger Menu -->
+                <div class="hamburger-menu">
+                    <div class="hamburger-btn" onclick="toggleMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="#" onclick="showBalanceAlert()">
+                            <i class="fas fa-wallet"></i> Check Balance
+                        </a>
+                        <a href="#" onclick="showDepositModal()">
+                            <i class="fas fa-plus-circle"></i> Deposit Funds
+                        </a>
+                        <a href="#" onclick="showWithdrawModal()">
+                            <i class="fas fa-minus-circle"></i> Withdraw Funds
+                        </a>
+                        <a href="#" onclick="showTransactions()">
+                            <i class="fas fa-history"></i> Transaction History
+                        </a>
+                        <a href="#" onclick="showPurchases()">
+                            <i class="fas fa-shopping-bag"></i> My Purchases
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="user-info">
+                <div class="wallet-card" onclick="showBalanceAlert()">
+                    <i class="fas fa-coins"></i>
+                    <div class="wallet-info">
+                        <span class="wallet-label">BALANCE</span>
+                        <span class="wallet-amount" id="walletBalance">$0</span>
+                    </div>
+                </div>
+                
+                <div class="user-profile">
+                    <i class="far fa-user-circle" style="font-size: 24px; color: #94a3b8;"></i>
+                    <span class="user-name" id="userName"></span>
+                    <span class="admin-badge hidden" id="adminBadge">Admin</span>
+                </div>
+                
+                <button class="logout-btn" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Balance Alert -->
+            <div class="balance-alert" id="balanceAlert">
+                <p>Your current balance is <strong id="alertBalance">$0</strong></p>
+                <i class="fas fa-times" onclick="hideBalanceAlert()" style="cursor: pointer; color: #94a3b8;"></i>
+            </div>
+
+            <!-- Wallet Actions -->
+            <div class="wallet-actions">
+                <div class="wallet-action-btn" onclick="showDepositModal()">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Deposit Funds</span>
+                    <small>Add money to wallet</small>
+                </div>
+                
+                <div class="wallet-action-btn" onclick="showWithdrawModal()">
+                    <i class="fas fa-minus-circle"></i>
+                    <span>Withdraw Funds</span>
+                    <small>Withdraw to bank</small>
+                </div>
+                
+                <div class="wallet-action-btn" onclick="showBalanceAlert()">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Check Balance</span>
+                    <small>View current balance</small>
+                </div>
+            </div>
+
+            <!-- Admin Panel -->
+            <div class="admin-panel hidden" id="adminPanel">
+                <h2><i class="fas fa-crown" style="color: #f59e0b;"></i> Admin Controls - Add New Item</h2>
+                <div class="admin-form">
+                    <input type="text" id="itemName" placeholder="Item Name">
+                    <input type="text" id="itemIcon" placeholder="Icon URL or Emoji">
+                    <textarea id="itemDescription" placeholder="Item Description" rows="3"></textarea>
+                    <input type="number" id="itemPrice" placeholder="Price ($)">
+                    <button onclick="addItem()">
+                        <i class="fas fa-plus"></i> Add Item
+                    </button>
+                </div>
+            </div>
+
+            <!-- Items Grid -->
+            <div class="items-header">
+                <h2>Available Items</h2>
+            </div>
+            
+            <div class="items-grid" id="itemsGrid">
+                <!-- Items will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div class="modal" id="depositModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-plus-circle" style="color: #10b981;"></i> Deposit Funds</h3>
+            <input type="number" id="depositAmount" placeholder="Enter amount ($)" min="1">
+            <div class="modal-actions">
+                <button class="confirm-btn" onclick="handleDeposit()">Deposit</button>
+                <button class="cancel-btn" onclick="hideDepositModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div class="modal" id="withdrawModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-minus-circle" style="color: #f59e0b;"></i> Withdraw Funds</h3>
+            <input type="number" id="withdrawAmount" placeholder="Enter amount ($)" min="1">
+            <div class="modal-actions">
+                <button class="confirm-btn" onclick="handleWithdraw()">Withdraw</button>
+                <button class="cancel-btn" onclick="hideWithdrawModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Item Modal -->
+    <div class="modal" id="editItemModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-edit" style="color: #3b82f6;"></i> Edit Item</h3>
+            <input type="hidden" id="editItemId">
+            <input type="text" id="editItemName" placeholder="Item Name">
+            <input type="text" id="editItemIcon" placeholder="Icon URL or Emoji">
+            <textarea id="editItemDescription" placeholder="Item Description" rows="3"></textarea>
+            <input type="number" id="editItemPrice" placeholder="Price ($)">
+            <div class="modal-actions">
+                <button class="confirm-btn" onclick="updateItem()">Update</button>
+                <button class="cancel-btn" onclick="hideEditModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transactions Modal -->
+    <div class="modal" id="transactionsModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <h3><i class="fas fa-history"></i> Transaction History</h3>
+            <div id="transactionsList" style="max-height: 400px; overflow-y: auto; margin: 20px 0;">
+                <!-- Transactions will be loaded here -->
+            </div>
+            <button class="cancel-btn" onclick="hideTransactionsModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_URL = 'http://localhost:5000/api';
+        let token = localStorage.getItem('token');
+        let currentUser = JSON.parse(localStorage.getItem('user'));
+
+        // Axios interceptor for auth
+        axios.interceptors.request.use(config => {
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+        });
+
+        // Check if user is logged in
+        if (currentUser && token) {
+            showMainApp();
+            loadUserData();
+        }
+
+        // ========== UI FUNCTIONS ==========
+        function showSignup() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('signupPage').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('signupPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+        }
+
+        function showMainApp() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('signupPage').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+        }
+
+        function toggleMenu() {
+            document.getElementById('dropdownMenu').classList.toggle('show');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('dropdownMenu');
+            const btn = document.querySelector('.hamburger-btn');
+            
+            if (!btn.contains(event.target) && !menu.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Balance Alert
+        function showBalanceAlert() {
+            document.getElementById('balanceAlert').classList.remove('hidden');
+            updateBalance();
+        }
+
+        function hideBalanceAlert() {
+            document.getElementById('balanceAlert').classList.add('hidden');
+        }
+
+        // ========== AUTH FUNCTIONS ==========
+        async function handleSignup() {
+            const userData = {
+                name: document.getElementById('signupName').value,
+                username: document.getElementById('signupUsername').value,
+                email: document.getElementById('signupEmail').value,
+                password: document.getElementById('signupPassword').value
+            };
+
+            if (!userData.name || !userData.username || !userData.email || !userData.password) {
+                showError('signupError', 'Please fill in all fields');
+                return;
+            }
+
+            try {
+                const response = await axios.post(`${API_URL}/auth/register`, userData);
+                
+                token = response.data.token;
+                currentUser = response.data.user;
+                
+                localStorage.setItem('token', token);
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                
+                showMainApp();
+                loadUserData();
+            } catch (error) {
+                showError('signupError', error.response?.data?.error || 'Signup failed');
+            }
+        }
+
+        async function handleLogin() {
+            const credentials = {
+                username: document.getElementById('loginUsername').value,
+                password: document.getElementById('loginPassword').value
+            };
+
+            if (!credentials.username || !credentials.password) {
+                showError('loginError', 'Please enter username and password');
+                return;
+            }
+
+            try {
+                const response = await axios.post(`${API_URL}/auth/login`, credentials);
+                
+                token = response.data.token;
+                currentUser = response.data.user;
+                
+                localStorage.setItem('token', token);
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                
+                showMainApp();
+                loadUserData();
+            } catch (error) {
+                showError('loginError', error.response?.data?.error || 'Login failed');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            token = null;
+            currentUser = null;
+            
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        function showError(elementId, message) {
+            const errorDiv = document.getElementById(elementId);
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // ========== USER DATA ==========
+        function loadUserData() {
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('walletBalance').textContent = `$${currentUser.wallet}`;
+            document.getElementById('alertBalance').textContent = `$${currentUser.wallet}`;
+            
+            if (currentUser.role === 'admin') {
+                document.getElementById('adminBadge').classList.remove('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+            } else {
+                document.getElementById('adminBadge').classList.add('hidden');
+                document.getElementById('adminPanel').classList.add('hidden');
+            }
+            
+            loadItems();
+        }
+
+        async function updateBalance() {
+            try {
+                const response = await axios.get(`${API_URL}/wallet/balance`);
+                currentUser.wallet = response.data.balance;
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                
+                document.getElementById('walletBalance').textContent = `$${currentUser.wallet}`;
+                document.getElementById('alertBalance').textContent = `$${currentUser.wallet}`;
+            } catch (error) {
+                console.error('Balance update failed:', error);
+            }
+        }
+
+        // ========== WALLET FUNCTIONS ==========
+        function showDepositModal() {
+            document.getElementById('depositModal').classList.add('show');
+        }
+
+        function hideDepositModal() {
+            document.getElementById('depositModal').classList.remove('show');
+            document.getElementById('depositAmount').value = '';
+        }
+
+        async function handleDeposit() {
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+
+            try {
+                const response = await axios.post(`${API_URL}/wallet/deposit`, { amount });
+                currentUser.wallet = response.data.balance;
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                
+                updateBalance();
+                hideDepositModal();
+                alert('Deposit successful!');
+            } catch (error) {
+                alert(error.response?.data?.error || 'Deposit failed');
+            }
+        }
+
+        function showWithdrawModal() {
+            document.getElementById('withdrawModal').classList.add('show');
+        }
+
+        function hideWithdrawModal() {
+            document.getElementById('withdrawModal').classList.remove('show');
+            document.getElementById('withdrawAmount').value = '';
+        }
+
+        async function handleWithdraw() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+
+            if (amount > currentUser.wallet) {
+                alert('Insufficient balance');
+                return;
+            }
+
+            try {
+                const response = await axios.post(`${API_URL}/wallet/withdraw`, { amount });
+                currentUser.wallet = response.data.balance;
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                
+                updateBalance();
+                hideWithdrawModal();
+                alert('Withdrawal successful!');
+            } catch (error) {
+                alert(error.response?.data?.error || 'Withdrawal failed');
+            }
+        }
+
+        // ========== ITEMS FUNCTIONS ==========
+        async function loadItems() {
+            try {
+                const response = await axios.get(`${API_URL}/items`);
+                displayItems(response.data);
+            } catch (error) {
+                console.error('Failed to load items:', error);
+            }
+        }
+
+        function displayItems(items) {
+            const grid = document.getElementById('itemsGrid');
+            
+            grid.innerHTML = items.map(item => {
+                const isAdmin = currentUser?.role === 'admin';
+                
+                return `
+                    <div class="item-card">
+                        ${isAdmin ? `
+                            <div class="admin-actions">
+                                <button class="edit-btn" onclick="showEditModal('${item._id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="delete-btn" onclick="deleteItem('${item._id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        ` : ''}
+                        <div class="item-icon">${item.icon}</div>
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-description">${item.description}</div>
+                        <div class="item-price">$${item.price}</div>
+                        <button class="buy-btn" onclick="buyItem('${item._id}', ${item.price})">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function addItem() {
+            const itemData = {
+                name: document.getElementById('itemName').value,
+                icon: document.getElementById('itemIcon').value,
+                description: document.getElementById('itemDescription').value,
+                price: parseFloat(document.getElementById('itemPrice').value)
+            };
+
+            if (!itemData.name || !itemData.icon || !itemData.description || !itemData.price) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            try {
+                await axios.post(`${API_URL}/items`, itemData);
+                
+                // Clear form
+                document.getElementById('itemName').value = '';
+                document.getElementById('itemIcon').value = '';
+                document.getElementById('itemDescription').value = '';
+                document.getElementById('itemPrice').value = '';
+                
+                loadItems();
+                alert('Item added successfully!');
+            } catch (error) {
+                alert(error.response?.data?.error || 'Failed to add item');
+            }
+        }
+
+        function showEditModal(itemId) {
+            // Find item from DOM or fetch from server
+            // For simplicity, we'll fetch from server
+            axios.get(`${API_URL}/items`).then(response => {
+                const item = response.data.find(i => i._id === itemId);
+                if (item) {
+                    document.getElementById('editItemId').value = item._id;
+                    document.getElementById('editItemName').value = item.name;
+                    document.getElementById('editItemIcon').value = item.icon;
+                    document.getElementById('editItemDescription').value = item.description;
+                    document.getElementById('editItemPrice').value = item.price;
+                    document.getElementById('editItemModal').classList.add('show');
+                }
+            });
+        }
+
+        function hideEditModal() {
+            document.getElementById('editItemModal').classList.remove('show');
+        }
+
+        async function updateItem() {
+            const itemId = document.getElementById('editItemId').value;
+            const itemData = {
+                name: document.getElementById('editItemName').value,
+                icon: document.getElementById('editItemIcon').value,
+                description: document.getElementById('editItemDescription').value,
+                price: parseFloat(document.getElementById('editItemPrice').value)
+            };
+
+            try {
+                await axios.put(`${API_URL}/items/${itemId}`, itemData);
+                hideEditModal();
+                loadItems();
+                alert('Item updated successfully!');
+            } catch (error) {
+                alert(error.response?.data?.error || 'Failed to update item');
+            }
+        }
+
+        async function deleteItem(itemId) {
+            if (!confirm('Are you sure you want to delete this item?')) return;
+
+            try {
+                await axios.delete(`${API_URL}/items/${itemId}`);
+                loadItems();
+                alert('Item deleted successfully!');
+            } catch (error) {
+                alert(error.response?.data?.error || 'Failed to delete item');
+            }
+        }
+
+        async function buyItem(itemId, price) {
+            if (currentUser.wallet < price) {
+                alert(`Insufficient balance! You need $${price} but you have $${currentUser.wallet}`);
+                return;
+            }
+
+            if (!confirm(`Are you sure you want to buy this item for $${price}?`)) return;
+
+            try {
+                const response = await axios.post(`${API_URL}/items/${itemId}/buy`);
+                currentUser.wallet = response.data.balance;
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                
+                updateBalance();
+                alert('Purchase successful!');
+            } catch (error) {
+                alert(error.response?.data?.error || 'Purchase failed');
+            }
+        }
+
+        // ========== TRANSACTIONS ==========
+        async function showTransactions() {
+            try {
+                const response = await axios.get(`${API_URL}/user/transactions`);
+                const transactions = response.data;
+                
+                const html = transactions.map(t => `
+                    <div style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: ${t.type === 'deposit' ? '#10b981' : t.type === 'withdraw' ? '#f59e0b' : '#ef4444'}">
+                                ${t.type.toUpperCase()}
+                            </span>
+                            <span>$${t.amount}</span>
+                        </div>
+                        <div style="font-size: 12px; color: #94a3b8;">
+                            ${new Date(t.createdAt).toLocaleString()}
+                        </div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('transactionsList').innerHTML = html || '<p style="color: #94a3b8;">No transactions yet</p>';
+                document.getElementById('transactionsModal').classList.add('show');
+            } catch (error) {
+                alert('Failed to load transactions');
+            }
+        }
+
+        function hideTransactionsModal() {
+            document.getElementById('transactionsModal').classList.remove('show');
+        }
+
+        async function showPurchases() {
+            try {
+                const response = await axios.get(`${API_URL}/user/purchases`);
+                const purchases = response.data;
+                
+                const html = purchases.map(p => `
+                    <div style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <div style="font-weight: 600;">${p.itemName}</div>
+                        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #94a3b8;">
+                            <span>$${p.price}</span>
+                            <span>${new Date(p.purchaseDate).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('transactionsList').innerHTML = html || '<p style="color: #94a3b8;">No purchases yet</p>';
+                document.getElementById('transactionsModal').classList.add('show');
+            } catch (error) {
+                alert('Failed to load purchases');
+            }
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = ['depositModal', 'withdrawModal', 'editItemModal', 'transactionsModal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (event.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
