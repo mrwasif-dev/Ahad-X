@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahad X Toolkit - Complete System</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: #0f172a;
+            background-image: radial-gradient(circle at 30% 50%, rgba(52, 152, 219, 0.1) 0%, transparent 50%),
+                              radial-gradient(circle at 70% 80%, rgba(155, 89, 182, 0.1) 0%, transparent 50%);
+        }
+
+        /* Auth Pages Styling */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .auth-brand {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-brand::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+        }
+
+        .auth-brand-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+
+        .auth-brand-content h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-brand-content h2 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #94a3b8;
+        }
+
+        .auth-form-section {
+            padding: 60px 50px;
+            background: white;
+        }
+
+        .auth-form {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-header h3 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #3b82f6;
+            margin-bottom: 12px;
+        }
+
+        .auth-header h4 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .input-wrapper input, .input-wrapper select {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            font-size: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            transition: all 0.3s;
+            outline: none;
+            background: #f8fafc;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .input-wrapper input:focus, .input-wrapper select:focus {
+            border-color: #3b82f6;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px #3b82f6;
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .auth-link a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard Styling */
+        .dashboard-container {
+            min-height: 100vh;
+            background: #f1f5f9;
+        }
+
+        .dashboard-nav {
+            background: white;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-brand h2 {
+            font-size: 24px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #1e293b;
+            cursor: pointer;
+        }
+
+        .nav-menu a {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            background: #f1f5f9;
+            color: #3b82f6;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #f1f5f9;
+            border-radius: 30px;
+        }
+
+        .user-badge i {
+            color: #3b82f6;
+        }
+
+        .user-badge span {
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .admin-badge {
+            background: #8b5cf6;
+            color: white !important;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        .dashboard-main {
+            padding: 30px;
+        }
+
+        .welcome-card {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .welcome-card h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-card p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .items-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .add-item-btn {
+            padding: 12px 24px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-item-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .item-card h3 {
+            font-size: 18px;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .item-card p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .admin-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .admin-actions button {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .edit-btn {
+            background: #f1f5f9;
+            color: #3b82f6;
+        }
+
+        .edit-btn:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .delete-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+
+        .modal-content input, .modal-content textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .save-btn {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .auth-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .auth-brand {
+                display: none;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.show {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .dashboard-main {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-brand">
+                <div class="auth-brand-content">
+                    <h1>Ahad X</h1>
+                    <h2>Toolkit</h2>
+                    <p style="color: #94a3b8; font-size: 16px; line-height: 1.6;">
+                        Professional toolkit for modern developers. Streamline your workflow with our comprehensive suite of tools.
+                    </p>
+                </div>
+            </div>
+            <div class="auth-form-section">
+                <div class="auth-form">
+                    <div class="auth-header">
+                        <h3>WELCOME BACK</h3>
+                        <h4>Sign in to continue</h4>
+                    </div>
+                    
+                    <div id="loginError" class="error-message" style="color: #ef4444; margin-bottom: 15px; display: none;"></div>
+                    
+                    <div class="form-group">
+                        <label>Username</label>
+                        <div class="input-wrapper">
+                            <i class="far fa-user"></i>
+                            <input type="text" id="loginUsername" placeholder="Enter username">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="Enter password">
+                        </div>
+                    </div>
+                    
+                    <button class="auth-btn" onclick="handleLogin()">
+                        <i class="fas fa-sign-in-alt"></i> Log In
+                    </button>
+                    
+                    <div class="auth-link">
+                        Don't have an account? <a href="#" onclick="showSignup()">Sign up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signupPage" class="auth-container hidden">
+        <div class="auth-card">
+            <div class="auth-brand">
+                <div class="auth-brand-content">
+                    <h1>Ahad X</h1>
+                    <h2>Toolkit</h2>
+                    <p style="color: #94a3b8; font-size: 16px; line-height: 1.6;">
+                        Join thousands of developers using Ahad X Toolkit.
+                    </p>
+                </div>
+            </div>
+            <div class="auth-form-section">
+                <div class="auth-form">
+                    <div class="auth-header">
+                        <h3>CREATE ACCOUNT</h3>
+                        <h4>Get started for free</h4>
+                    </div>
+                    
+                    <div id="signupError" class="error-message" style="color: #ef4444; margin-bottom: 15px; display: none;"></div>
+                    
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="far fa-user"></i>
+                            <input type="text" id="signupName" placeholder="Enter full name">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Username</label>
+                        <div class="input-wrapper">
+                            <i class="far fa-id-card"></i>
+                            <input type="text" id="signupUsername" placeholder="Choose username">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email</label>
+                        <div class="input-wrapper">
+                            <i class="far fa-envelope"></i>
+                            <input type="email" id="signupEmail" placeholder="Enter email">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="signupPassword" placeholder="Create password">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Account Type</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user-tag"></i>
+                            <select id="signupRole">
+                                <option value="user">Regular User</option>
+                                <option value="admin">Global User (Admin)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button class="auth-btn" onclick="handleSignup()">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </button>
+                    
+                    <div class="auth-link">
+                        Already have an account? <a href="#" onclick="showLogin()">Sign in</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="dashboard-container hidden">
+        <nav class="dashboard-nav">
+            <div class="nav-brand">
+                <h2>Ahad X Toolkit</h2>
+                <button class="menu-toggle" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="nav-menu" id="mobileMenu">
+                    <a href="#" class="active">Dashboard</a>
+                    <a href="#">Items</a>
+                    <a href="#">Analytics</a>
+                    <a href="#">Settings</a>
+                </div>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-badge">
+                    <i class="far fa-user-circle"></i>
+                    <span id="currentUser"></span>
+                </div>
+                <span id="adminBadge" class="admin-badge hidden">Admin</span>
+                <button class="logout-btn" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </nav>
+
+        <main class="dashboard-main">
+            <div class="welcome-card">
+                <h1>Welcome back, <span id="welcomeUser"></span>!</h1>
+                <p>Here's what's happening with your items today.</p>
+            </div>
+
+            <div class="items-header">
+                <h2>Your Items</h2>
+                <button id="addItemBtn" class="add-item-btn" onclick="showAddItemModal()">
+                    <i class="fas fa-plus"></i> Add New Item
+                </button>
+            </div>
+
+            <div class="items-grid" id="itemsGrid">
+                <!-- Items will be loaded here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Item Modal -->
+    <div id="itemModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Add New Item</h2>
+            <input type="hidden" id="itemId">
+            <input type="text" id="itemName" placeholder="Item Name">
+            <textarea id="itemDescription" placeholder="Item Description" rows="3"></textarea>
+            <input type="text" id="itemCategory" placeholder="Category">
+            
+            <div class="modal-actions">
+                <button class="save-btn" onclick="saveItem()">Save</button>
+                <button class="cancel-btn" onclick="hideModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize default admin if not exists
+        if (!localStorage.getItem('users')) {
+            const defaultUsers = [
+                {
+                    id: '1',
+                    name: 'Global Admin',
+                    username: 'admin',
+                    email: 'admin@ahadx.com',
+                    password: 'admin123',
+                    role: 'admin'
+                }
+            ];
+            localStorage.setItem('users', JSON.stringify(defaultUsers));
+        }
+
+        // Initialize items if not exists
+        if (!localStorage.getItem('items')) {
+            const defaultItems = [
+                {
+                    id: '1',
+                    name: 'Welcome Item',
+                    description: 'This is your first item. Admins can add/edit/delete items.',
+                    category: 'General',
+                    createdBy: 'admin',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            localStorage.setItem('items', JSON.stringify(defaultItems));
+        }
+
+        // Check if user is logged in
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser) {
+            showDashboard();
+        }
+
+        function showSignup() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('signupPage').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('signupPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+        }
+
+        function handleSignup() {
+            const name = document.getElementById('signupName').value;
+            const username = document.getElementById('signupUsername').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const role = document.getElementById('signupRole').value;
+
+            if (!name || !username || !email || !password) {
+                showError('signupError', 'Please fill in all fields');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            if (users.find(u => u.username === username)) {
+                showError('signupError', 'Username already exists');
+                return;
+            }
+
+            const newUser = {
+                id: Date.now().toString(),
+                name,
+                username,
+                email,
+                password,
+                role
+            };
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Auto login after signup
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            showDashboard();
+        }
+
+        function handleLogin() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                showError('loginError', 'Please enter username and password');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                showDashboard();
+            } else {
+                showError('loginError', 'Invalid username or password');
+            }
+        }
+
+        function showError(elementId, message) {
+            const errorDiv = document.getElementById(elementId);
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('currentUser');
+            document.getElementById('dashboardPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        function showDashboard() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) return;
+
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('signupPage').classList.add('hidden');
+            document.getElementById('dashboardPage').classList.remove('hidden');
+
+            document.getElementById('currentUser').textContent = user.name;
+            document.getElementById('welcomeUser').textContent = user.name;
+
+            const adminBadge = document.getElementById('adminBadge');
+            const addItemBtn = document.getElementById('addItemBtn');
+
+            if (user.role === 'admin') {
+                adminBadge.classList.remove('hidden');
+                addItemBtn.style.display = 'flex';
+            } else {
+                adminBadge.classList.add('hidden');
+                addItemBtn.style.display = 'none';
+            }
+
+            loadItems();
+        }
+
+        function loadItems() {
+            const items = JSON.parse(localStorage.getItem('items')) || [];
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const itemsGrid = document.getElementById('itemsGrid');
+
+            itemsGrid.innerHTML = items.map(item => {
+                const isAdmin = currentUser && currentUser.role === 'admin';
+                
+                return `
+                    <div class="item-card">
+                        ${isAdmin ? `
+                            <div class="admin-actions">
+                                <button class="edit-btn" onclick="editItem('${item.id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="delete-btn" onclick="deleteItem('${item.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        ` : ''}
+                        <h3>${item.name}</h3>
+                        <p>${item.description}</p>
+                        <div class="item-meta">
+                            <span><i class="fas fa-tag"></i> ${item.category}</span>
+                            <span><i class="far fa-clock"></i> ${new Date(item.createdAt).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showAddItemModal() {
+            document.getElementById('modalTitle').textContent = 'Add New Item';
+            document.getElementById('itemId').value = '';
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemDescription').value = '';
+            document.getElementById('itemCategory').value = '';
+            document.getElementById('itemModal').classList.add('show');
+        }
+
+        function editItem(id) {
+            const items = JSON.parse(localStorage.getItem('items')) || [];
+            const item = items.find(i => i.id === id);
+            
+            if (item) {
+                document.getElementById('modalTitle').textContent = 'Edit Item';
+                document.getElementById('itemId').value = item.id;
+                document.getElementById('itemName').value = item.name;
+                document.getElementById('itemDescription').value = item.description;
+                document.getElementById('itemCategory').value = item.category;
+                document.getElementById('itemModal').classList.add('show');
+            }
+        }
+
+        function deleteItem(id) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                let items = JSON.parse(localStorage.getItem('items')) || [];
+                items = items.filter(i => i.id !== id);
+                localStorage.setItem('items', JSON.stringify(items));
+                loadItems();
+            }
+        }
+
+        function saveItem() {
+            const id = document.getElementById('itemId').value;
+            const name = document.getElementById('itemName').value;
+            const description = document.getElementById('itemDescription').value;
+            const category = document.getElementById('itemCategory').value;
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+            if (!name || !description || !category) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            let items = JSON.parse(localStorage.getItem('items')) || [];
+
+            if (id) {
+                // Edit existing item
+                items = items.map(item => {
+                    if (item.id === id) {
+                        return { ...item, name, description, category };
+                    }
+                    return item;
+                });
+            } else {
+                // Add new item
+                const newItem = {
+                    id: Date.now().toString(),
+                    name,
+                    description,
+                    category,
+                    createdBy: currentUser.username,
+                    createdAt: new Date().toISOString()
+                };
+                items.push(newItem);
+            }
+
+            localStorage.setItem('items', JSON.stringify(items));
+            hideModal();
+            loadItems();
+        }
+
+        function hideModal() {
+            document.getElementById('itemModal').classList.remove('show');
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('show');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('itemModal');
+            if (event.target === modal) {
+                hideModal();
+            }
+        }
+    </script>
+</body>
+</html>
